@@ -32,6 +32,7 @@ namespace PdfSharp.Pdf.Advanced
         void Initialize()
         {
             Elements.SetName(Keys.Type, TypeValue);
+            Elements.SetName(Keys.Subtype, "text/xml");
             Elements.SetInteger("/Length", _data.Length);
 
             var objParams = new PdfDictionary(_document);

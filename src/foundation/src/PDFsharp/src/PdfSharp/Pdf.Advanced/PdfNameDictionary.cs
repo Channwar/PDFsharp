@@ -67,6 +67,8 @@ namespace PdfSharp.Pdf.Advanced
             var embeddedFileStream = new PdfEmbeddedFileStream(Owner, stream);
             var fileSpecification = new PdfFileSpecification(Owner, embeddedFileStream, name);
             Owner.Internals.AddObject(fileSpecification);
+            Owner.Catalog.AssociatedFiles = new PdfArray(Owner, fileSpecification.ReferenceNotNull);
+            
 
             _embeddedFiles.AddName(name, fileSpecification.ReferenceNotNull);
         }

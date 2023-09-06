@@ -23,6 +23,11 @@ namespace PdfSharp.Pdf.Advanced
         {
             Elements.SetName(Keys.Type, "/Filespec");
 
+            if (_document.IsPdfA3)
+            {
+                Elements.SetName("/AFRelationship", "/Alternative");
+                Elements.SetName("/Subtype", "/text/xml");
+            }
             Elements.SetString(Keys.F, _name);
             Elements.SetString(Keys.UF, _name);
 

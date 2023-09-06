@@ -434,7 +434,11 @@ namespace PdfSharp.Pdf
 
             // @PDF/UA
             // Create PdfMetadata now to include the final document information in XMP generation.
-            Catalog.Elements.SetReference(PdfCatalog.Keys.Metadata, new PdfMetadata(this));
+            if (!HasPdfMetadata)
+            {
+                Catalog.Elements.SetReference(PdfCatalog.Keys.Metadata
+                    , new PdfMetadata(this));
+            }
         }
 
         /// <summary>
@@ -698,6 +702,10 @@ namespace PdfSharp.Pdf
 
         PdfCatalog? _catalog;  // never changes if once created
 
+        internal bool HasPdfMetadata { get; set; } = false;
+
+        public bool IsPdfA3 { get; set; } = false;
+
         /// <summary>
         /// Gets the PdfInternals object of this document, that grants access to some internal structures
         /// which are not part of the public interface of PdfDocument.
@@ -791,6 +799,13 @@ namespace PdfSharp.Pdf
             {
                 AcroForm.Fields[idx].ReadOnly = true;
             }
+        }
+
+        public void AddMetadata(PdfMetadata pdfMetadata)
+        {
+            Catalog.Elements.SetReference(PdfCatalog.Keys.Metadata
+                , pdfMetadata);
+            HasPdfMetadata = true;
         }
 
         /// <summary>

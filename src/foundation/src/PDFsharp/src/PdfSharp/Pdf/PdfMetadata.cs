@@ -19,28 +19,32 @@ namespace PdfSharp.Pdf
         {
             Elements.SetName(Keys.Type, "/Metadata");
             Elements.SetName(Keys.Subtype, "/XML");
-            SetupStream();
+            SetupStream(GenerateXmp());
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PdfMetadata"/> class.
         /// </summary>
         /// <param name="document">The document that owns this object.</param>
-        public PdfMetadata(PdfDocument document)
+        /// <param name="xmp">The string that contains the metaData you want to add to the document.</param>
+        public PdfMetadata(PdfDocument document, string? xmp = null)
             : base(document)
         {
             document.Internals.AddObject(this);
+            document.HasPdfMetadata = true;
             Elements.SetName(Keys.Type, "/Metadata");
             Elements.SetName(Keys.Subtype, "/XML");
-            SetupStream();
+
+            if (string.IsNullOrWhiteSpace(xmp))
+                xmp = GenerateXmp();
+                
+            SetupStream(xmp);
         }
 
-        void SetupStream()
+        void SetupStream(string stream)
         {
             const string begin = @"begin=""";
-
-            var stream = GenerateXmp();
-
+            
             // Preserve "ï»¿" if text is UTF8 encoded.
             var i = stream.IndexOf(begin, StringComparison.Ordinal);
             var pos = i + begin.Length;

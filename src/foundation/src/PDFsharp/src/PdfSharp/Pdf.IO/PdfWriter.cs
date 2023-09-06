@@ -22,7 +22,7 @@ namespace PdfSharp.Pdf.IO
             SecurityHandler = securityHandler;
             //System.Xml.XmlTextWriter
 #if DEBUG
-            _layout = PdfWriterLayout.Verbose;
+            // _layout = PdfWriterLayout.Verbose;
 #endif
         }
 
@@ -393,7 +393,7 @@ namespace PdfSharp.Pdf.IO
 
             if (omitStream)
             {
-                WriteRaw("  «...stream content omitted...»\n");  // useful for debugging only
+                WriteRaw("  ï¿½...stream content omitted...ï¿½\n");  // useful for debugging only
             }
             else
             {
